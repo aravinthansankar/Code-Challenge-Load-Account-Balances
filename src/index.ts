@@ -1,6 +1,7 @@
 import { FileReaderService } from './services/FileReaderService';
 import { BankingService } from './services/BankingService';
 
+
 /**
  * Main application entry point
  * Reads account balances and transactions from CSV files,
@@ -12,11 +13,11 @@ const main = async () => {
 
   try {
     // Read initial account balances from CSV
-    const accounts = fileReaderService.readAccountBalances('./mable_account_balances.csv', companyId);
+    const accounts = fileReaderService.readAccountBalances('./data/mable_account_balances.csv', companyId);
     const bankingService = new BankingService(accounts);
 
     // Read and process transactions from CSV
-    const transactions = fileReaderService.readTransactions('./mable_transactions.csv', companyId);
+    const transactions = fileReaderService.readTransactions('./data/mable_transactions.csv', companyId);
 
     // Display initial account balances
     console.log('Initial Account Balances:');
