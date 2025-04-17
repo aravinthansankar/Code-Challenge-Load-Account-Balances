@@ -1,6 +1,14 @@
+/**
+ * Test suite for AccountEntity class
+ * Tests account creation, validation, and operations
+ */
 import { AccountEntity } from '../domain/models/Account';
 import { ZodError } from 'zod';
 
+/**
+ * Test suite for AccountEntity class
+ * Tests account creation, validation, and operations
+ */
 describe('AccountEntity', () => {
   const validAccountData = {
     accountNumber: '1234567890123456',
@@ -8,6 +16,10 @@ describe('AccountEntity', () => {
     companyId: 'test-company'
   };
 
+  /**
+   * Tests for AccountEntity constructor
+   * Validates account creation and data validation
+   */
   describe('constructor', () => {
     it('should create account with valid data', () => {
       const account = new AccountEntity(validAccountData);
@@ -43,6 +55,10 @@ describe('AccountEntity', () => {
     });
   });
 
+  /**
+   * Tests for withdraw operation
+   * Validates withdrawal functionality and error cases
+   */
   describe('withdraw', () => {
     it('should withdraw amount successfully', () => {
       const account = new AccountEntity(validAccountData);
@@ -62,6 +78,10 @@ describe('AccountEntity', () => {
     });
   });
 
+  /**
+   * Tests for deposit operation
+   * Validates deposit functionality
+   */
   describe('deposit', () => {
     it('should deposit amount successfully', () => {
       const account = new AccountEntity(validAccountData);
@@ -77,6 +97,10 @@ describe('AccountEntity', () => {
     });
   });
 
+  /**
+   * Tests for canWithdraw operation
+   * Validates balance checking functionality
+   */
   describe('canWithdraw', () => {
     it('should return true for valid withdrawal amount', () => {
       const account = new AccountEntity(validAccountData);

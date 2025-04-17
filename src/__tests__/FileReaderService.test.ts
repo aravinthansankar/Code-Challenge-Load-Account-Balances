@@ -1,3 +1,7 @@
+/**
+ * Test suite for FileReaderService class
+ * Tests file reading, parsing, and error handling
+ */
 import { FileReaderService } from '../services/FileReaderService';
 import fs from 'fs';
 import { AccountEntity } from '../domain/models/Account';
@@ -10,6 +14,10 @@ jest.mock('fs/promises', () => ({
   unlink: jest.fn()
 }));
 
+/**
+ * Test suite for FileReaderService class
+ * Tests file reading, parsing, and error handling
+ */
 describe('FileReaderService', () => {
   let fileReaderService: FileReaderService;
   const companyId = 'alpha-sales';
@@ -19,6 +27,10 @@ describe('FileReaderService', () => {
     jest.resetAllMocks();
   });
 
+  /**
+   * Tests for account balance file reading
+   * Validates CSV parsing and error handling
+   */
   describe('readAccountBalances', () => {
     it('should read and parse account balances correctly', () => {
       const mockCsvContent = '1111234522226789,5000.00\n1111234522221234,10000.00';
@@ -115,6 +127,10 @@ describe('FileReaderService', () => {
     });
   });
 
+  /**
+   * Tests for transaction file reading
+   * Validates CSV parsing and error handling
+   */
   describe('readTransactions', () => {
     it('should read and parse transactions correctly', () => {
       const mockCsvContent = '1111234522226789,1212343433335665,500.00';

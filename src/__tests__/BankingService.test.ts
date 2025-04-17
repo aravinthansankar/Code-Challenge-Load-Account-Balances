@@ -1,3 +1,7 @@
+/**
+ * Test suite for BankingService class
+ * Tests banking operations, transaction processing, and error handling
+ */
 import { AccountEntity } from '../domain/models/Account';
 import { TransactionEntity } from '../domain/models/Transaction';
 import { BankingService } from '../services/BankingService';
@@ -35,6 +39,10 @@ describe('BankingService', () => {
     bankingService = new BankingService(initialAccounts);
   });
 
+  /**
+   * Tests for transaction processing
+   * Validates transaction execution and error cases
+   */
   describe('processTransaction', () => {
     it('should process valid transaction correctly', () => {
       const transaction = new TransactionEntity({
@@ -159,6 +167,10 @@ describe('BankingService', () => {
     });
   });
 
+  /**
+   * Tests for account balance retrieval
+   * Validates balance checking and error cases
+   */
   describe('getAccountBalance', () => {
     it('should return correct balance for existing account', () => {
       expect(bankingService.getAccountBalance('1111234522226789', companyId)).toBe(5000.00);
@@ -196,6 +208,10 @@ describe('BankingService', () => {
     });
   });
 
+  /**
+   * Tests for account listing
+   * Validates retrieval of all managed accounts
+   */
   describe('getAllAccounts', () => {
     it('should return all accounts', () => {
       const accounts = bankingService.getAllAccounts();
@@ -204,6 +220,10 @@ describe('BankingService', () => {
     });
   });
 
+  /**
+   * Tests for fund transfer operation
+   * Validates transfer functionality and error cases
+   */
   describe('transfer', () => {
     it('should transfer funds between accounts successfully', () => {
       const fromAccount = '1111234522226789';
