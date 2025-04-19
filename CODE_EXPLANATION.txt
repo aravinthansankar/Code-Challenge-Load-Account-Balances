@@ -1,0 +1,101 @@
+MABLE BACKEND CODE CHALLENGE EXPLANATION
+=======================================
+
+TASK OVERVIEW
+-------------
+The task was to implement a banking service that:
+1. Loads account balances from a CSV file
+2. Processes daily transfers from another CSV file
+3. Ensures accounts cannot go below $0
+4. Handles 16-digit account numbers
+5. Processes transfers between accounts
+
+IMPLEMENTATION DECISIONS
+-----------------------
+1. Technology Stack:
+   - TypeScript: Chosen for type safety and better code organization
+   - Node.js: For file system operations and CSV parsing
+   - Jest: For comprehensive testing
+
+2. Architecture:
+   - Domain-Driven Design: Separated business logic into domain models
+   - Service Layer: Implemented services for file reading and banking operations
+   - Error Handling: Custom error types for different scenarios
+
+3. Key Components:
+   a. Domain Models:
+      - AccountEntity: Represents bank accounts with validation
+      - TransactionEntity: Represents money transfers between accounts
+      - Custom Errors: For specific banking scenarios
+
+   b. Services:
+      - FileReaderService: Handles CSV file reading and parsing
+      - BankingService: Manages account operations and transactions
+
+4. Testing Strategy:
+   - 100% test coverage
+   - Unit tests for all components
+   - Edge case handling
+   - Error scenario testing
+
+WHY THIS APPROACH?
+-----------------
+1. Type Safety:
+   - TypeScript provides compile-time checks
+   - Reduces runtime errors
+   - Better code maintainability
+
+2. Domain-Driven Design:
+   - Clear separation of concerns
+   - Business logic encapsulation
+   - Easy to extend and modify
+
+3. Comprehensive Testing:
+   - Ensures reliability
+   - Catches edge cases
+   - Documents expected behavior
+
+4. Error Handling:
+   - Specific error types for different scenarios
+   - Clear error messages
+   - Graceful failure handling
+
+5. File Processing:
+   - Efficient CSV parsing
+   - Data validation
+   - Error handling for malformed files
+
+CODE STRUCTURE
+-------------
+src/
+├── domain/           # Core business logic
+│   ├── errors/      # Custom error types
+│   └── models/      # Domain entities
+├── services/        # Business operations
+└── __tests__/      # Test suite
+
+KEY FEATURES
+-----------
+1. Account Management:
+   - Balance tracking
+   - Validation rules
+   - Transfer capabilities
+
+2. Transaction Processing:
+   - Secure transfers
+   - Balance checks
+   - Error handling
+
+3. File Operations:
+   - CSV parsing
+   - Data validation
+   - Error reporting
+
+4. Testing:
+   - Comprehensive coverage
+   - Edge case handling
+   - Error scenario testing
+
+CONCLUSION
+----------
+This implementation provides a robust, type-safe, and well-tested solution for the banking service requirements. The architecture allows for easy extension and maintenance, while the comprehensive test suite ensures reliability. The separation of concerns and clear error handling make the system both maintainable and reliable.
