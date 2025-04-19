@@ -55,6 +55,31 @@ To process the account balances and transactions:
 npm start
 ```
 
+### Final Output
+When you run `npm start`, you'll see the following output showing the initial balances, processed transactions, and final balances:
+
+```
+Initial Account Balances:
+Account 1111234522226789: $5000.00
+Account 1111234522221234: $10000.00
+Account 2222123433331212: $550.00
+Account 1212343433335665: $1200.00
+Account 3212343433335755: $50000.00
+
+Processing Transactions...
+Processed: $500.00 from 1111234522226789 to 1212343433335665
+Processed: $1000.00 from 3212343433335755 to 2222123433331212
+Processed: $320.50 from 3212343433335755 to 1111234522226789
+Processed: $25.60 from 1111234522221234 to 1212343433335665
+
+Final Account Balances (After All Transactions):
+Account 1111234522226789: $4820.50
+Account 1111234522221234: $9974.40
+Account 2222123433331212: $1550.00
+Account 1212343433335665: $1725.60
+Account 3212343433335755: $48679.50
+```
+
 ## Running the Tests
 
 To run the test suite:
