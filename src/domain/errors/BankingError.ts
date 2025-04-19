@@ -29,16 +29,6 @@ export class InsufficientFundsError extends BankingError {
 }
 
 /**
- * Error thrown when company IDs don't match
- */
-export class CompanyMismatchError extends BankingError {
-  constructor(transactionCompanyId: string, accountCompanyId: string) {
-    super(`Company ID mismatch. Transaction: ${transactionCompanyId}, Account: ${accountCompanyId}`);
-    this.name = 'CompanyMismatchError';
-  }
-}
-
-/**
  * Error thrown when CSV file format is invalid
  */
 export class InvalidCsvFormatError extends BankingError {

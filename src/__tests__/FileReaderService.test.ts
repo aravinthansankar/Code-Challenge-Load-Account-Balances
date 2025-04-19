@@ -20,7 +20,6 @@ jest.mock('fs/promises', () => ({
  */
 describe('FileReaderService', () => {
   let fileReaderService: FileReaderService;
-  const companyId = 'alpha-sales';
 
   beforeEach(() => {
     fileReaderService = new FileReaderService();
@@ -36,19 +35,18 @@ describe('FileReaderService', () => {
       const mockCsvContent = '1111234522226789,5000.00\n1111234522221234,10000.00';
       (fs.readFileSync as jest.Mock).mockReturnValue(mockCsvContent);
 
-      const accounts = fileReaderService.readAccountBalances('test.csv', companyId);
+      const accounts = fileReaderService.readAccountBalances('test.csv');
 
       expect(accounts).toHaveLength(2);
       expect(accounts[0]).toBeInstanceOf(AccountEntity);
       expect(accounts[0].getAccountNumber()).toBe('1111234522226789');
       expect(accounts[0].getBalance()).toBe(5000.00);
-      expect(accounts[0].getCompanyId()).toBe(companyId);
     });
 
     it('should handle empty CSV file', () => {
       (fs.readFileSync as jest.Mock).mockReturnValue('');
 
-      const accounts = fileReaderService.readAccountBalances('test.csv', companyId);
+      const accounts = fileReaderService.readAccountBalances('test.csv');
 
       expect(accounts).toHaveLength(0);
     });
@@ -58,7 +56,7 @@ describe('FileReaderService', () => {
       (fs.readFileSync as jest.Mock).mockReturnValue(mockCsvContent);
 
       expect(() => {
-        fileReaderService.readAccountBalances('test.csv', companyId);
+        fileReaderService.readAccountBalances('test.csv');
       }).toThrow(InvalidCsvFormatError);
     });
 
@@ -67,7 +65,7 @@ describe('FileReaderService', () => {
       (fs.readFileSync as jest.Mock).mockReturnValue(mockCsvContent);
 
       expect(() => {
-        fileReaderService.readAccountBalances('test.csv', companyId);
+        fileReaderService.readAccountBalances('test.csv');
       }).toThrow();
     });
 
@@ -76,7 +74,7 @@ describe('FileReaderService', () => {
       (fs.readFileSync as jest.Mock).mockReturnValue(mockCsvContent);
 
       expect(() => {
-        fileReaderService.readAccountBalances('test.csv', companyId);
+        fileReaderService.readAccountBalances('test.csv');
       }).toThrow(InvalidCsvFormatError);
     });
 
@@ -86,7 +84,7 @@ describe('FileReaderService', () => {
       });
 
       expect(() => {
-        fileReaderService.readAccountBalances('test.csv', companyId);
+        fileReaderService.readAccountBalances('test.csv');
       }).toThrow(FileSystemError);
     });
 
@@ -98,12 +96,11 @@ describe('FileReaderService', () => {
       // Mock the file system operations
       (fs.readFileSync as jest.Mock).mockReturnValue(csvContent);
 
-      const result = fileReaderService.readAccountBalances('test.csv', companyId);
+      const result = fileReaderService.readAccountBalances('test.csv');
       expect(result).toHaveLength(3);
       expect(result[0]).toBeInstanceOf(AccountEntity);
       expect(result[0].getAccountNumber()).toBe('1234567890123456');
       expect(result[0].getBalance()).toBe(1000.00);
-      expect(result[0].getCompanyId()).toBe(companyId);
     });
 
     it('should throw FileSystemError with unknown error message', () => {
@@ -112,7 +109,7 @@ describe('FileReaderService', () => {
       });
 
       expect(() => {
-        fileReaderService.readAccountBalances('test.csv', companyId);
+        fileReaderService.readAccountBalances('test.csv');
       }).toThrow(FileSystemError);
     });
 
@@ -122,7 +119,7 @@ describe('FileReaderService', () => {
       });
 
       expect(() => {
-        fileReaderService.readAccountBalances('test.csv', companyId);
+        fileReaderService.readAccountBalances('test.csv');
       }).toThrow(FileSystemError);
     });
   });
@@ -136,20 +133,19 @@ describe('FileReaderService', () => {
       const mockCsvContent = '1111234522226789,1212343433335665,500.00';
       (fs.readFileSync as jest.Mock).mockReturnValue(mockCsvContent);
 
-      const transactions = fileReaderService.readTransactions('test.csv', companyId);
+      const transactions = fileReaderService.readTransactions('test.csv');
 
       expect(transactions).toHaveLength(1);
       expect(transactions[0]).toBeInstanceOf(TransactionEntity);
       expect(transactions[0].getFromAccount()).toBe('1111234522226789');
       expect(transactions[0].getToAccount()).toBe('1212343433335665');
       expect(transactions[0].getAmount()).toBe(500.00);
-      expect(transactions[0].getCompanyId()).toBe(companyId);
     });
 
     it('should handle empty CSV file', () => {
       (fs.readFileSync as jest.Mock).mockReturnValue('');
 
-      const transactions = fileReaderService.readTransactions('test.csv', companyId);
+      const transactions = fileReaderService.readTransactions('test.csv');
 
       expect(transactions).toHaveLength(0);
     });
@@ -159,7 +155,7 @@ describe('FileReaderService', () => {
       (fs.readFileSync as jest.Mock).mockReturnValue(mockCsvContent);
 
       expect(() => {
-        fileReaderService.readTransactions('test.csv', companyId);
+        fileReaderService.readTransactions('test.csv');
       }).toThrow(InvalidCsvFormatError);
     });
 
@@ -168,7 +164,7 @@ describe('FileReaderService', () => {
       (fs.readFileSync as jest.Mock).mockReturnValue(mockCsvContent);
 
       expect(() => {
-        fileReaderService.readTransactions('test.csv', companyId);
+        fileReaderService.readTransactions('test.csv');
       }).toThrow();
     });
 
@@ -177,7 +173,7 @@ describe('FileReaderService', () => {
       (fs.readFileSync as jest.Mock).mockReturnValue(mockCsvContent);
 
       expect(() => {
-        fileReaderService.readTransactions('test.csv', companyId);
+        fileReaderService.readTransactions('test.csv');
       }).toThrow(InvalidCsvFormatError);
     });
 
@@ -187,7 +183,7 @@ describe('FileReaderService', () => {
       });
 
       expect(() => {
-        fileReaderService.readTransactions('test.csv', companyId);
+        fileReaderService.readTransactions('test.csv');
       }).toThrow(FileSystemError);
     });
 
@@ -199,43 +195,31 @@ describe('FileReaderService', () => {
       // Mock the file system operations
       (fs.readFileSync as jest.Mock).mockReturnValue(csvContent);
 
-      const result = fileReaderService.readTransactions('test.csv', companyId);
+      const result = fileReaderService.readTransactions('test.csv');
       expect(result).toHaveLength(3);
       expect(result[0]).toBeInstanceOf(TransactionEntity);
       expect(result[0].getFromAccount()).toBe('1234567890123456');
       expect(result[0].getToAccount()).toBe('2345678901234567');
       expect(result[0].getAmount()).toBe(100.00);
-      expect(result[0].getCompanyId()).toBe(companyId);
     });
 
-    it('should handle multiple transactions', () => {
-      const mockCsvContent = '1111234522226789,1212343433335665,500.00\n1111234522221234,1212343433335665,1000.00';
-      (fs.readFileSync as jest.Mock).mockReturnValue(mockCsvContent);
-
-      const transactions = fileReaderService.readTransactions('test.csv', companyId);
-
-      expect(transactions).toHaveLength(2);
-      expect(transactions[0].getAmount()).toBe(500.00);
-      expect(transactions[1].getAmount()).toBe(1000.00);
-    });
-
-    it('should throw FileSystemError with unknown error message for transactions', () => {
+    it('should throw FileSystemError with unknown error message', () => {
       (fs.readFileSync as jest.Mock).mockImplementation(() => {
         throw new TypeError('Some unexpected error');
       });
 
       expect(() => {
-        fileReaderService.readTransactions('test.csv', companyId);
+        fileReaderService.readTransactions('test.csv');
       }).toThrow(FileSystemError);
     });
 
-    it('should throw FileSystemError with custom error message for transactions', () => {
+    it('should throw FileSystemError with custom error message', () => {
       (fs.readFileSync as jest.Mock).mockImplementation(() => {
         throw { name: 'CustomError' }; // Not an Error instance
       });
 
       expect(() => {
-        fileReaderService.readTransactions('test.csv', companyId);
+        fileReaderService.readTransactions('test.csv');
       }).toThrow(FileSystemError);
     });
   });
