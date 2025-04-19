@@ -4,12 +4,10 @@ import { z } from 'zod';
  * Schema for validating account data
  * @property {string} accountNumber - 16-digit account number
  * @property {number} balance - Account balance (must be non-negative)
- * @property {string} companyId - Company identifier
  */
 export const AccountSchema = z.object({
   accountNumber: z.string().length(16).regex(/^\d+$/),
-  balance: z.number().min(0),
-  companyId: z.string()
+  balance: z.number().min(0)
 });
 
 /**
@@ -47,14 +45,6 @@ export class AccountEntity {
    */
   getBalance(): number {
     return this.account.balance;
-  }
-
-  /**
-   * Gets the company ID associated with the account
-   * @returns {string} Company identifier
-   */
-  getCompanyId(): string {
-    return this.account.companyId;
   }
 
   /**

@@ -1,6 +1,6 @@
 import { AccountEntity } from '../domain/models/Account';
 import { TransactionEntity } from '../domain/models/Transaction';
-import { AccountNotFoundError, InsufficientFundsError, CompanyMismatchError } from '../domain/errors/BankingError';
+import { AccountNotFoundError, InsufficientFundsError } from '../domain/errors/BankingError';
 
 /**
  * Banking Service class that handles the core business logic for account operations
@@ -27,7 +27,6 @@ export class BankingService {
    * Processes a transaction between accounts
    * @param {TransactionEntity} transaction - Transaction to process
    * @throws {AccountNotFoundError} If accounts not found
-   * @throws {CompanyMismatchError} If company IDs don't match
    * @throws {InsufficientFundsError} If insufficient funds
    */
   public processTransaction(transaction: TransactionEntity): void {
@@ -36,13 +35,6 @@ export class BankingService {
 
     if (!fromAccount || !toAccount) {
       throw new AccountNotFoundError(!fromAccount ? transaction.getFromAccount() : transaction.getToAccount());
-    }
-
-    if (fromAccount.getCompanyId() !== transaction.getCompanyId() || toAccount.getCompanyId() !== transaction.getCompanyId()) {
-      throw new CompanyMismatchError(
-        transaction.getCompanyId(),
-        fromAccount.getCompanyId() !== transaction.getCompanyId() ? fromAccount.getCompanyId() : toAccount.getCompanyId()
-      );
     }
 
     if (!fromAccount.canWithdraw(transaction.getAmount())) {
@@ -60,18 +52,13 @@ export class BankingService {
   /**
    * Gets the current balance of an account
    * @param {string} accountNumber - Account number to query
-   * @param {string} companyId - Company ID to verify
    * @returns {number} Current account balance
    * @throws {AccountNotFoundError} If account not found
-   * @throws {CompanyMismatchError} If account does not belong to the specified company
    */
-  getAccountBalance(accountNumber: string, companyId: string): number {
+  getAccountBalance(accountNumber: string): number {
     const account = this.accounts.get(accountNumber);
     if (!account) {
       throw new AccountNotFoundError(accountNumber);
-    }
-    if (account.getCompanyId() !== companyId) {
-      throw new CompanyMismatchError(companyId, account.getCompanyId());
     }
     return account.getBalance();
   }
@@ -89,12 +76,10 @@ export class BankingService {
    * @param {string} fromAccountNumber - Source account number
    * @param {string} toAccountNumber - Destination account number
    * @param {number} amount - Amount to transfer
-   * @param {string} companyId - Company ID to verify
    * @throws {AccountNotFoundError} If one or both accounts not found
-   * @throws {CompanyMismatchError} If one or both accounts do not belong to the specified company
    * @throws {Error} If amount is not greater than 0
    */
-  transfer(fromAccountNumber: string, toAccountNumber: string, amount: number, companyId: string): void {
+  transfer(fromAccountNumber: string, toAccountNumber: string, amount: number): void {
     if (amount <= 0) {
       throw new Error('Amount must be greater than 0');
     }
@@ -104,13 +89,6 @@ export class BankingService {
 
     if (!fromAccount || !toAccount) {
       throw new AccountNotFoundError(!fromAccount ? fromAccountNumber : toAccountNumber);
-    }
-
-    if (fromAccount.getCompanyId() !== companyId || toAccount.getCompanyId() !== companyId) {
-      throw new CompanyMismatchError(
-        companyId,
-        fromAccount.getCompanyId() !== companyId ? fromAccount.getCompanyId() : toAccount.getCompanyId()
-      );
     }
 
     if (fromAccount.getBalance() < amount) {

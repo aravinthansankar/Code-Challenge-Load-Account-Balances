@@ -12,12 +12,11 @@ export class FileReaderService {
   /**
    * Reads and parses account balances from a CSV file
    * @param {string} filePath - Path to the CSV file
-   * @param {string} companyId - Company identifier to associate with accounts
    * @returns {AccountEntity[]} Array of parsed account entities
    * @throws {FileSystemError} If file cannot be read
    * @throws {InvalidCsvFormatError} If CSV format is invalid
    */
-  public readAccountBalances(filePath: string, companyId: string): AccountEntity[] {
+  public readAccountBalances(filePath: string): AccountEntity[] {
     try {
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       const records = parse(fileContent, {
@@ -45,8 +44,7 @@ export class FileReaderService {
 
         return new AccountEntity({
           accountNumber,
-          balance,
-          companyId
+          balance
         });
       });
     } catch (error) {
@@ -60,12 +58,11 @@ export class FileReaderService {
   /**
    * Reads and parses transactions from a CSV file
    * @param {string} filePath - Path to the CSV file
-   * @param {string} companyId - Company identifier to associate with transactions
    * @returns {TransactionEntity[]} Array of parsed transaction entities
    * @throws {FileSystemError} If file cannot be read
    * @throws {InvalidCsvFormatError} If CSV format is invalid
    */
-  public readTransactions(filePath: string, companyId: string): TransactionEntity[] {
+  public readTransactions(filePath: string): TransactionEntity[] {
     try {
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       const records = parse(fileContent, {
@@ -95,8 +92,7 @@ export class FileReaderService {
         return new TransactionEntity({
           fromAccount,
           toAccount,
-          amount,
-          companyId
+          amount
         });
       });
     } catch (error) {

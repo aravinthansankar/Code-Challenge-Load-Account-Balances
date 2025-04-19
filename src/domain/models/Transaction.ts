@@ -5,13 +5,11 @@ import { z } from 'zod';
  * @property {string} fromAccount - Source account number (16 digits)
  * @property {string} toAccount - Destination account number (16 digits)
  * @property {number} amount - Transaction amount (must be positive)
- * @property {string} companyId - Company identifier
  */
 export const TransactionSchema = z.object({
   fromAccount: z.string().length(16).regex(/^\d+$/),
   toAccount: z.string().length(16).regex(/^\d+$/),
-  amount: z.number().positive(),
-  companyId: z.string()
+  amount: z.number().positive()
 });
 
 /**
@@ -57,13 +55,5 @@ export class TransactionEntity {
    */
   getAmount(): number {
     return this.transaction.amount;
-  }
-
-  /**
-   * Gets the company ID associated with the transaction
-   * @returns {string} Company identifier
-   */
-  getCompanyId(): string {
-    return this.transaction.companyId;
   }
 }

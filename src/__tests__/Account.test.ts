@@ -12,8 +12,7 @@ import { ZodError } from 'zod';
 describe('AccountEntity', () => {
   const validAccountData = {
     accountNumber: '1234567890123456',
-    balance: 1000.00,
-    companyId: 'test-company'
+    balance: 1000.00
   };
 
   /**
@@ -25,7 +24,6 @@ describe('AccountEntity', () => {
       const account = new AccountEntity(validAccountData);
       expect(account.getAccountNumber()).toBe(validAccountData.accountNumber);
       expect(account.getBalance()).toBe(validAccountData.balance);
-      expect(account.getCompanyId()).toBe(validAccountData.companyId);
     });
 
     it('should throw error for invalid account number format', () => {
@@ -44,13 +42,6 @@ describe('AccountEntity', () => {
       expect(() => new AccountEntity({
         ...validAccountData,
         balance: -100
-      })).toThrow(ZodError);
-    });
-
-    it('should throw error for missing company ID', () => {
-      expect(() => new AccountEntity({
-        ...validAccountData,
-        companyId: undefined as any
       })).toThrow(ZodError);
     });
   });

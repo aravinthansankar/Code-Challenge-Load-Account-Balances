@@ -1,15 +1,34 @@
-# Banking Service
+# Mable Banking Service Challenge
 
-A TypeScript-based banking service that handles account management and transactions with robust error handling and validation.
+A TypeScript-based implementation of a banking service that processes account balances and transactions from CSV files, ensuring accounts cannot go below $0.
 
-## Overview
+## Challenge Overview
 
-This project implements a banking service that provides functionality for:
-- Account management
-- Transaction processing
-- Balance inquiries
-- Fund transfers
-- Error handling for various banking scenarios
+This project implements a banking service that:
+- Loads initial account balances from a CSV file
+- Processes daily transfers from another CSV file
+- Ensures accounts cannot go below $0
+- Handles 16-digit account numbers
+- Processes transfers between accounts
+
+## Example Data
+
+### Account Balances (mable_account_balances.csv)
+| Account Number      | Balance  |
+|---------------------|----------|
+| 1111234522226789    | 5000.00  |
+| 1111234522221234    | 10000.00 |
+| 2222123433331212    | 550.00   |
+| 1212343433335665    | 1200.00  |
+| 3212343433335755    | 50000.00 |
+
+### Transactions (mable_transactions.csv)
+| From Account        | To Account          | Amount  |
+|---------------------|---------------------|---------|
+| 1111234522226789    | 1212343433335665    | 500.00  |
+| 3212343433335755    | 2222123433331212    | 1000.00 |
+| 3212343433335755    | 1111234522226789    | 320.50  |
+| 1111234522221234    | 1212343433335665    | 25.60   |
 
 ## Prerequisites
 
@@ -20,13 +39,20 @@ This project implements a banking service that provides functionality for:
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd Mable_Final
+git clone https://github.com/aravinthansankar/Code-Challenge-Load-Account-Balances.git
+cd MABLE_CODE_TEST
 ```
 
 2. Install dependencies:
 ```bash
 npm install
+```
+
+## Running the Application
+
+To process the account balances and transactions:
+```bash
+npm start
 ```
 
 ## Running the Tests
@@ -41,7 +67,7 @@ To run tests with coverage report:
 npm test -- --coverage
 ```
 
-## Test Coverage Report
+## Test Coverage
 
 The project has achieved 100% test coverage across all files:
 
@@ -60,46 +86,6 @@ All files              |     100 |      100 |     100 |     100 |
   FileReaderService.ts |     100 |      100 |     100 |     100 |
 -----------------------|---------|----------|---------|---------|-------------------
 ```
-
-## Test Cases
-
-The test suite includes comprehensive coverage of the following scenarios:
-
-### Account Management
-- Account creation and validation
-- Balance inquiries
-- Company ID validation
-
-### Transaction Processing
-- Valid transaction processing
-- Invalid transaction handling
-- Zero amount transaction validation
-- Small amount transaction handling
-
-### Error Handling
-- Account not found errors
-- Company mismatch errors
-- Insufficient funds errors
-- Invalid transaction amount errors
-
-### Specific Test Cases
-1. **Account Not Found**
-   - Tests handling of non-existent accounts
-   - Verifies proper error throwing for invalid account numbers
-
-2. **Company Mismatch**
-   - Validates transactions between accounts of different companies
-   - Ensures proper error handling for company ID mismatches
-
-3. **Transaction Validation**
-   - Zero amount transactions
-   - Negative amount transactions
-   - Very small amount transactions (0.01)
-
-4. **Balance Management**
-   - Multiple transaction processing
-   - Balance updates after transactions
-   - Insufficient funds handling
 
 ## Project Structure
 
@@ -120,9 +106,21 @@ src/
     └── FileReaderService.test.ts
 ```
 
-## Error Types
+## Features
 
-The service implements the following custom error types:
-- `AccountNotFoundError`
-- `InsufficientFundsError`
-- `CompanyMismatchError`
+1. Account Management
+   - 16-digit account number validation
+   - Balance tracking
+   - Zero balance protection
+
+2. Transaction Processing
+   - CSV file reading
+   - Transfer validation
+   - Balance updates
+
+3. Error Handling
+   - Invalid account numbers
+   - Insufficient funds
+   - Invalid CSV format
+
+For a detailed explanation of the implementation and design decisions, please see [CODE_EXPLANATION.txt](./CODE_EXPLANATION.txt).
